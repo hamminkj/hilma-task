@@ -71,8 +71,8 @@
     }
 
     .task-icon {
-      width: 25px;
-      height: 25px;
+      width: 50px;
+      height: 50px;
     }
 
     .task-complete-btn {
@@ -177,6 +177,16 @@
   <script>
     const tasks = [];
 
+    const taskIcons = {
+      admin: 'icon1.png',
+      portfolio: 'icon2.png',
+      prep: 'icon3.png',
+      teaching: 'icon4.png',
+      making: 'icon5.png',
+      learning: 'icon1.png',
+      other: 'icon2.png'
+    };
+
     function renderTasks() {
       const tasksDiv = document.getElementById('tasks');
       tasksDiv.innerHTML = '';
@@ -185,7 +195,7 @@
         taskDiv.className = 'task';
         taskDiv.innerHTML = `
           <div class="task-header">
-            <span class="task-icon"><i class="fas fa-tasks"></i></span>
+            <img src="${taskIcons[task.category]}" alt="Task Icon" class="task-icon">
             <div>
               <div>${task.text}</div>
               <small>Points: ${task.points}, Category: ${task.category}</small><br>
