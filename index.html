@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task App</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    body { font-family: Arial, sans-serif; background-color: #1e293b; color: #f1f5f9; padding: 20px; }
+    .task-list, .add-task-form { max-width: 600px; margin: 0 auto; }
+    .task { background: #334155; padding: 15px; border-radius: 8px; margin-bottom: 10px; display: flex; justify-content: space-between; }
+    .task-header { display: flex; gap: 15px; align-items: center; }
+    .task-icon { width: 25px; height: 25px; }
+    .task-complete-btn { background-color: #10b981; color: white; padding: 5px; border: none; border-radius: 4px; cursor: pointer; }
+    .add-task-form input, .add-task-form select, .add-task-form button { margin-right: 5px; padding: 10px; border-radius: 4px; border: none; }
+    .add-task-form button { background-color: #3b82f6; color: white; cursor: pointer; }
+  </style>
+</head>
+<body>
+  <div class="task-list">
+    <h2>Task List</h2>
+    <div id="tasks"></div>
+  </div>
+
+  <div class="add-task-form">
+    <h3>Add a New Task</h3>
+    <input type="text" id="taskText" placeholder="Enter task...">
+    <select id="taskPoints">
+      <option value="1">1 pt</option>
+      <option value="2">2 pts</option>
+      <option value="3">3 pts</option>
+      <option value="4">4 pts</option>
+      <option value="5">5 pts</option>
+    </select>
+    <select id="taskCategory">
+      <option value="admin">Admin</option>
+      <option value="portfolio">Portfolio</option>
+      <option value="prep">Prep</option>
+      <option value="teaching">Teaching</option>
+      <option value="making">Making</option>
+      <option value="learning">Learning</option>
+      <option value="other">Other</option>
+    </select>
+    <button onclick="addTask()">Add Task</button>
+  </div>
+
+  <script>
+    const tasks = [];
+
+    function renderTasks() {
+      const tasksDiv = document.getElementById('tasks');
+      tasksDiv.innerHTML = '';
+      tasks.forEach(task => {
+        const taskDiv = document.createElement('div');
+        taskDiv.className = 'task';
+        taskDiv.innerHTML = `
+          <div class="task-header">
+            <span class="task-icon"><i class="fas fa-tasks"></i></span>
+            <div>
+              <div>${task.text}</div>
+              <small>Points: ${task.points}, Category: ${task.category}</small>
+            </div>
+          </div>
+          <button class="task-complete-btn" onclick="completeTask(${task.id})">Mark Complete</button>
+        `;
+        tasksDiv.appendChild(taskDiv);
+      });
+    }
+
+    function addTask() {
+      const taskText = document.getElementById('taskText').value;
+      const taskPoints = document.getElementById('taskPoints').value;
+      const taskCategory = document.getElementById('taskCategory').value;
+
+      if (taskText.trim()) {
+        const newTask = {
+          id: Date.now(),
+          text: taskText,
+          points: taskPoints,
+          category: taskCategory,
+          completed: false
+        };
+        tasks.push(newTask);
+        renderTasks();
+        document.getElementById('taskText').value = '';
+      }
+    }
+
+    function completeTask(id) {
+      const taskIndex = tasks.findIndex(task => task.id === id);
+      if (taskIndex !== -1) {
+        tasks[taskIndex].completed = true;
+        renderTasks();
+      }
+    }
+  </script>
+</body>
+</html>
